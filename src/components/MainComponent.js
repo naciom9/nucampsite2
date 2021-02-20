@@ -10,11 +10,6 @@ import { Switch, Route, Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { actions } from 'react-redux-form';
 import { addComment, fetchCampsites, fetchComments, fetchPromotions } from '../redux/ActionCreators';
-import { CAMPSITES } from '../shared/campsites';
-import { COMMENTS } from '../shared/comments';
-import { PARTNERS } from '../shared/partners';
-import { PROMOTIONS } from '../shared/promotions';
-
  
 const mapStateToProps = state =>{
     return {
@@ -35,17 +30,10 @@ const mapDispatchToProps = {
 };
 
 class Main extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            campsites: CAMPSITES,
-            comments: COMMENTS,
-            partners: PARTNERS,
-            promotions: PROMOTIONS
-        };
-    }
 
     componentDidMount() {
+        console.log("props in Main:", this.props)
+
         this.props.fetchCampsites();
         this.props.fetchComments();
         this.props.fetchPromotions();
@@ -87,7 +75,7 @@ class Main extends Component {
                     <Route path='/home' component={HomePage} />
                     <Route exact path='/directory' render={() => <Directory campsites={this.props.campsites} />} />
                     <Route path='/directory/:campsiteId' component={CampsiteWithId} />
-                    <Route path='/aboutus' render={() => <About partners={PARTNERS} />} />
+                    <Route path='/aboutus' render={() => <About partners={this.props.partners} />} />
                     <Route exact path='/contactus' render={() => <Contact resetFeedbackForm=
                     {this.props.resetFeedbackForm} />} />
                     <Redirect to='/home' />
